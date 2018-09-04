@@ -12,7 +12,7 @@ const DURATION = {
   longBreak: 25 * 60,
 };
 const SESSIONS = 4;
-const GOALS = 16;
+const GOALS = 12;
 
 class App extends Component {
   constructor(props) {
@@ -24,8 +24,9 @@ class App extends Component {
       isTimeLongBreak: false,
       currentSession: 1,
       currentGoal: 1,
-      isPaused: false,
+      isPaused: true,
       pauseDuration: 0,
+      pauseStart: Math.floor(Date.now() / 1000),
     }
   }
 
@@ -38,16 +39,21 @@ class App extends Component {
       newState.isTimeLongBreak = false;
       newState.pauseDuration = 0;
 
-      if(state.isTimeFocus && state.currentSession < SESSIONS) {
-        newState.isTimeShortBreak = true;
-      } else if (state.isTimeFocus && state.currentSession === SESSIONS) {
-        newState.isTimeLongBreak = true;
+      if(state.isTimeFocus) { 
+        if (state.currentSession < SESSIONS) {
+          newState.isTimeShortBreak = true;
+        } else {
+          newState.isTimeLongBreak = true;
+        }
+      } else if(state.isTimeLongBreak) {
+        newState.isTimeFocus = true;
         newState.currentSession = 1;
 
         if (newState.currentGoal === GOALS) {
           newState.currentGoal = 1;
+          this.toggleCountdown();
         }
-      } else {
+      } else if(state.isTimeShortBreak) {
         newState.isTimeFocus = true;
         newState.currentSession = state.currentSession + 1;
         newState.currentGoal = state.currentGoal + 1;

@@ -10,7 +10,7 @@ export class Countdown extends Component {
     this.state = {
       end: Math.floor(Date.now() / 1000) + props.duration,
       timing: props.duration,
-      interval: this.setInterval(),
+      interval: this.props.isPaused ? 0 : this.setInterval(),
       isPaused: props.isPaused,
       pauseDuration: props.pauseDuration,
     }
