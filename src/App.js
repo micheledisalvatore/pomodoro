@@ -52,7 +52,7 @@ class App extends Component {
 
         if (newState.currentGoal === GOALS) {
           newState.currentGoal = 1;
-          this.toggleCountdown();
+          this.pauseCountdown();
         }
       } else if(state.isTimeShortBreak) {
         newState.isTimeFocus = true;
@@ -83,14 +83,29 @@ class App extends Component {
   }
 
   toggleCountdown = () => {
-    this.setState(({ isPaused, pauseStart, pauseDuration }) => {
+    if(this.state.isPaused) {
+      this.startCountdown();
+    } else {
+      this.pauseCountdown();
+    }
+  }
+
+  pauseCountdown = () => {
+    this.setState({
+      pauseStart: Math.floor(Date.now() / 1000),
+      isPaused: true,
+    })
+  }
+
+  startCountdown = () => {
+    this.setState(({ pauseStart, pauseDuration }) => {
       const pauseEnd = Math.floor(Date.now() / 1000)
-      const newPauseDuration = pauseDuration + (pauseStart && isPaused ? pauseEnd - pauseStart : 0);
+      const newPauseDuration = pauseDuration + pauseEnd - pauseStart;
 
       return {
-        pauseStart: isPaused ? 0 : Math.floor(Date.now() / 1000),
+        pauseStart: 0,
         pauseDuration: newPauseDuration,
-        isPaused: !isPaused,
+        isPaused: false,
       }
     })
   }
