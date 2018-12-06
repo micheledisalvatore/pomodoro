@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -14,31 +16,31 @@ describe('Given a Controller component', () => {
 
   describe('when it is rendered', () => {
     beforeEach(() => {
-      component = <Controller {...requiredProps} />
+      component = <Controller {...requiredProps} />;
       wrapper = shallow(component);
-    })
+    });
 
     it('should match the snapshot', () => {
       expect(wrapper).toMatchSnapshot();
-    })
+    });
 
     it('should render the pause icon', () => {
       expect(wrapper.find(PauseIcon)).toExist();
-    })
+    });
 
     describe('and the user clicks on it', () => {
       beforeEach(() => {
         wrapper.simulate('click', 'foo');
-      })
+      });
 
       afterEach(() => {
         onClickMock.mockReset();
-      })
+      });
 
       it('should invoke onClickMock', () => {
         expect(onClickMock).toBeCalledWith('foo');
-      })
-    })
+      });
+    });
 
     describe('and the component is in pause', () => {
       beforeEach(() => {
@@ -49,11 +51,11 @@ describe('Given a Controller component', () => {
 
       it('should match the snapshot', () => {
         expect(wrapper).toMatchSnapshot();
-      })
+      });
 
       it('should render the play icon', () => {
         expect(wrapper.find(PlayIcon)).toExist();
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

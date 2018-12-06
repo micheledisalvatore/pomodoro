@@ -12,8 +12,8 @@ export const Controller = ({ isPaused, onClick }) => (
 Controller.propTypes = {
   isPaused: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-}
+};
 
 Controller.defaultProps = {
   isPaused: false,
-}
+};
