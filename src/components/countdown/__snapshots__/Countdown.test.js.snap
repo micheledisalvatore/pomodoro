@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given a Countdown component when it is rendered should match the snapshot 1`] = `
+<styled.div>
+  <styled.div
+    color="red"
+  >
+    00:10
+  </styled.div>
+  <styled.svg>
+    <styled.circle
+      color="red"
+      duration={10}
+      isPaused={true}
+    />
+  </styled.svg>
+</styled.div>
+`;

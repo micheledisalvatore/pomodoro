@@ -7,50 +7,63 @@ export class Countdown extends Component {
   constructor(props) {
     super(props);
 
+    const { duration, isPaused, pauseDuration } = props;
+
     this.state = {
-      end: Math.floor(Date.now() / 1000) + props.duration,
-      timing: props.duration,
-      interval: this.props.isPaused ? 0 : this.setInterval(),
-      isPaused: props.isPaused,
-      pauseDuration: props.pauseDuration,
+      end: Math.floor(Date.now() / 1000) + duration,
+      timing: duration,
+      interval: isPaused ? 0 : this.setInterval(),
+      isPaused: isPaused,
+      pauseDuration: pauseDuration,
     }
   }
 
   setInterval = () => window.setInterval(() => {
-    if(this.state.timing > 0) {
-      this.setState(({ end, pauseDuration, timing }) => ({ timing: end + pauseDuration - Math.floor(Date.now() / 1000) }))
+    const { timing, interval } = this.state;
+    const { onEnd } = this.props;
+
+    if(timing > 0) {
+      this.setState(({ end, pauseDuration }) => ({
+        timing: end + pauseDuration - Math.floor(Date.now() / 1000),
+      }))
     } else {
-      this.props.onEnd();
-      window.clearInterval(this.state.interval)
+      onEnd();
+      window.clearInterval(interval)
     }
   }, 1000)
 
   componentDidUpdate(prevProps) {
-    if(prevProps.duration !== this.props.duration || prevProps.isPaused !== this.props.isPaused) {
-      window.clearInterval(this.state.interval)
+    const { duration, isPaused, pauseDuration } = this.props;
+    const { interval } = this.state;
+
+    if(prevProps.duration !== duration || prevProps.isPaused !== isPaused) {
+      window.clearInterval(interval)
 
       this.setState(({ end }) => ({
-        timing: end + this.props.pauseDuration - Math.floor(Date.now() / 1000),
-        interval: this.props.isPaused ? 0 : this.setInterval(),
-        isPaused: this.props.isPaused,
-        pauseDuration: this.props.pauseDuration,
+        timing: end + pauseDuration - Math.floor(Date.now() / 1000),
+        interval: isPaused ? 0 : this.setInterval(),
+        isPaused: isPaused,
+        pauseDuration: pauseDuration,
       }))
     }
   }
 
   get timing() {
-    const minutes = Math.floor(this.state.timing / 60).toString().padStart(2, '0');
-    const seconds = (this.state.timing % 60).toString().padStart(2, '0');
-    
+    const { timing } = this.state;
+    const minutes = Math.floor(timing / 60).toString().padStart(2, '0');
+    const seconds = (timing % 60).toString().padStart(2, '0');
+
     return `${minutes}:${seconds}`
   }
 
   render() {
+    const { color, duration, isPaused } = this.props;
+
     return (
       <Container>
-        <Number color={this.props.color}>{this.timing}</Number>
+        <Number color={color}>{this.timing}</Number>
         <Svg>
-          <Circle duration={this.props.duration} color={this.props.color} isPaused={this.props.isPaused} />
+          <Circle duration={duration} color={color} isPaused={isPaused} />
         </Svg>
       </Container>
     );
@@ -58,9 +71,15 @@ export class Countdown extends Component {
 }
 
 Countdown.propTypes = {
+  color: PropTypes.string.isRequired,
   duration: PropTypes.number,
+  isPaused: PropTypes.bool,
+  onEnd: PropTypes.func.isRequired,
+  pauseDuration: PropTypes.number,
 }
 
 Countdown.defaultProps = {
-  duration: 10
+  duration: 10,
+  pauseDuration: 0,
+  isPaused: true,
 }
