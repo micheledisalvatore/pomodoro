@@ -52,7 +52,11 @@
       "src/**/*.{js,jsx}",
       "!src/**/index.{js,jsx}",
       "!src/**/*.styled.js",
-      "!src/config/store.js"
+      "!src/constants/*.js",
+      "!src/config/store.js",
+      "!src/App.js",
+      "!src/registerServiceWorker.js",
+      "!src/setupTests.js"
     ],
     "coverageReporters": [
       "json",

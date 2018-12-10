@@ -3,7 +3,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { PlayIcon, PauseIcon } from './Controller.style';
+import { PlayIcon, PauseIcon } from './Controller.styled';
 import { Controller, mapStateToProps } from './Controller';
 
 describe('Given a Controller component', () => {

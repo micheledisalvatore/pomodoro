@@ -7,7 +7,7 @@ import {
   startSession,
 } from '../../actions/session';
 
-import { Button, PlayIcon, PauseIcon } from './Controller.style';
+import { Button, PlayIcon, PauseIcon } from './Controller.styled';
 
 export const Controller = ({ isPaused, startSessionAction, pauseSessionAction }) => {
   const toggleCountdown = () => (isPaused ? startSessionAction() : pauseSessionAction());
