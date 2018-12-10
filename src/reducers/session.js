@@ -40,7 +40,7 @@ const start = (state, { session = SESSIONS.FOCUS }) => {
     };
   }
   const { length, color, label } = session;
-  console.log({session})
+
   return {
     ...newState,
     color,
