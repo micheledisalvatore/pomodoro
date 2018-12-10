@@ -1,0 +1,4 @@
+export const COUNTER_SET_NEW_SESSION = 'COUNTER::SET_NEW_SESSION';
+
+export const COUNTER_SESSIONS = 4;
+export const COUNTER_GOALS = 12;

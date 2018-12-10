@@ -3,28 +3,25 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Countdown } from './Countdown';
 import { Number, Circle } from './Countdown.styled';
+import { Countdown, mapStateToProps } from './Countdown';
 
 describe('Given a Countdown component', () => {
   const COLOR_PROP = 'red';
-  const onEndMock = jest.fn();
   let component;
   let wrapper;
 
   const requiredProps = {
     color: COLOR_PROP,
-    onEnd: onEndMock,
+    isPaused: true,
+    length: 10,
+    timing: 10,
   };
 
   describe('when it is rendered', () => {
     beforeEach(() => {
       component = <Countdown {...requiredProps} />;
       wrapper = shallow(component);
-    });
-
-    afterEach(() => {
-      jest.clearAllTimers();
     });
 
     it('should match the snapshot', () => {
@@ -58,43 +55,68 @@ describe('Given a Countdown component', () => {
         });
       });
 
+      it('should match the snapshot', () => {
+        expect(wrapper).toMatchSnapshot();
+      });
+
       it('should have the timer in play', () => {
         expect(wrapper.find(Circle)).toHaveProp('isPaused', false);
       });
 
-      xdescribe('and 3 seconds are passed', () => {
+      describe('and 3 seconds are passed', () => {
         beforeEach(() => {
-          jest.advanceTimersByTime(3000);
+          wrapper.setProps({
+            timing: 7,
+          });
+        });
+
+        it('should match the snapshot', () => {
+          expect(wrapper).toMatchSnapshot();
         });
 
         it('should show the countdown set to 00:07', () => {
           expect(wrapper.find(Number)).toHaveText('00:07');
         });
 
-        describe('and the user pauses the timer', () => {
+        describe('and the timer ends', () => {
           beforeEach(() => {
             wrapper.setProps({
-              isPaused: true,
+              timing: 0,
             });
           });
 
-          describe('and the user starts the timer after 4 seconds', () => {
-            beforeEach(() => {
-              wrapper.setProps({
-                pauseDuration: 4,
-              });
-            });
-            describe('and 5 seconds are passed in total', () => {
-              beforeEach(() => {
-                jest.advanceTimersByTime(5000);
-              });
+          it('should match the snapshot', () => {
+            expect(wrapper).toMatchSnapshot();
+          });
 
-              it('should show the countdown set to 00:06', () => {
-                expect(wrapper.find(Number)).toHaveText('00:06');
-              });
-            });
+          it('should show the countdown set to 00:00', () => {
+            expect(wrapper.find(Number)).toHaveText('00:00');
+          });
+
+          it('should NOT show the timer', () => {
+            expect(wrapper.find(Circle)).not.toExist();
           });
         });
+      });
+    });
+  });
+});
+
+describe('Given a mapStateToProps function', () => {
+  describe('when it is called', () => {
+    it('should return an object with the passed values', () => {
+      expect(mapStateToProps({
+        session: {
+          color: 'fooColor',
+          isPaused: 'fooIsPause',
+          length: 'fooLength',
+          timing: 'fooTiming',
+        },
+      })).toEqual({
+        color: 'fooColor',
+        isPaused: 'fooIsPause',
+        length: 'fooLength',
+        timing: 'fooTiming',
       });
     });
   });

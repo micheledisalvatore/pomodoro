@@ -1,3 +1,4 @@
-import { Controller } from './Controller';
+import { connect } from 'react-redux';
+import { Controller, mapStateToProps, mapDispatchToProps } from './Controller';
 
-export default Controller;
+export default connect(mapStateToProps, mapDispatchToProps)(Controller);

@@ -1,3 +1,4 @@
-import { Countdown } from './Countdown';
+import { connect } from 'react-redux';
+import { Countdown, mapStateToProps } from './Countdown';
 
-export default Countdown;
+export default connect(mapStateToProps)(Countdown);

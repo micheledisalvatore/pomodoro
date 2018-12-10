@@ -4,14 +4,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { PlayIcon, PauseIcon } from './Controller.style';
-import { Controller } from './Controller';
+import { Controller, mapStateToProps } from './Controller';
 
 describe('Given a Controller component', () => {
   let component;
   let wrapper;
-  const onClickMock = jest.fn();
+  const pauseSessionActionMock = jest.fn();
+  const startSessionActionMock = jest.fn();
   const requiredProps = {
-    onClick: onClickMock,
+    isPaused: true,
+    pauseSessionAction: pauseSessionActionMock,
+    startSessionAction: startSessionActionMock,
   };
 
   describe('when it is rendered', () => {
@@ -24,28 +27,28 @@ describe('Given a Controller component', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render the pause icon', () => {
-      expect(wrapper.find(PauseIcon)).toExist();
+    it('should render the play icon', () => {
+      expect(wrapper.find(PlayIcon)).toExist();
     });
 
-    describe('and the user clicks on it', () => {
+    describe('and the user clicks on it when it is paused', () => {
       beforeEach(() => {
         wrapper.simulate('click', 'foo');
       });
 
       afterEach(() => {
-        onClickMock.mockReset();
+        startSessionActionMock.mockReset();
       });
 
-      it('should invoke onClickMock', () => {
-        expect(onClickMock).toBeCalledWith('foo');
+      it('should invoke startSessionAction without parameters', () => {
+        expect(startSessionActionMock).toBeCalledWith();
       });
     });
 
-    describe('and the component is in pause', () => {
+    describe('and the component is started', () => {
       beforeEach(() => {
         wrapper.setProps({
-          isPaused: true,
+          isPaused: false,
         });
       });
 
@@ -53,8 +56,36 @@ describe('Given a Controller component', () => {
         expect(wrapper).toMatchSnapshot();
       });
 
-      it('should render the play icon', () => {
-        expect(wrapper.find(PlayIcon)).toExist();
+      it('should render the pause icon', () => {
+        expect(wrapper.find(PauseIcon)).toExist();
+      });
+
+      describe('and the user clicks on it when it is started', () => {
+        beforeEach(() => {
+          wrapper.simulate('click', 'foo');
+        });
+
+        afterEach(() => {
+          pauseSessionActionMock.mockReset();
+        });
+
+        it('should invoke startSessionAction without parameters', () => {
+          expect(pauseSessionActionMock).toBeCalledWith();
+        });
+      });
+    });
+  });
+});
+
+describe('Given a mapStateToProps function', () => {
+  describe('when it is called', () => {
+    it('should return an object with the passed values', () => {
+      expect(mapStateToProps({
+        session: {
+          isPaused: 'foo',
+        },
+      })).toEqual({
+        isPaused: 'foo',
       });
     });
   });

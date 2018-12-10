@@ -1,11 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Given a Countdown component when it is rendered and the user starts the countdown and 3 seconds are passed and the timer ends should match the snapshot 1`] = `
+<styled.div>
+  <styled.div
+    color="red"
+  >
+    00
+    :
+    00
+  </styled.div>
+</styled.div>
+`;
+
+exports[`Given a Countdown component when it is rendered and the user starts the countdown and 3 seconds are passed should match the snapshot 1`] = `
+<styled.div>
+  <styled.div
+    color="red"
+  >
+    00
+    :
+    07
+  </styled.div>
+  <styled.svg>
+    <styled.circle
+      color="red"
+      duration={10}
+      isPaused={false}
+    />
+  </styled.svg>
+</styled.div>
+`;
+
+exports[`Given a Countdown component when it is rendered and the user starts the countdown should match the snapshot 1`] = `
+<styled.div>
+  <styled.div
+    color="red"
+  >
+    00
+    :
+    10
+  </styled.div>
+  <styled.svg>
+    <styled.circle
+      color="red"
+      duration={10}
+      isPaused={false}
+    />
+  </styled.svg>
+</styled.div>
+`;
+
 exports[`Given a Countdown component when it is rendered should match the snapshot 1`] = `
 <styled.div>
   <styled.div
     color="red"
   >
-    00:10
+    00
+    :
+    10
   </styled.div>
   <styled.svg>
     <styled.circle
