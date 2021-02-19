@@ -12,7 +12,7 @@ import { startSession } from '../actions/session';
 
 const getCounterState = ({ counter }) => counter;
 
-function* start() {
+export function* start() {
   const {
     goalNumber: prevGoalNumber,
     sessionNumber: prevSessionNumber,
@@ -57,7 +57,7 @@ function* start() {
   }
 }
 
-function* watchActions() {
+export function* watchActions() {
   yield takeLatest(SESSION_COMPLETE, start);
 }
 

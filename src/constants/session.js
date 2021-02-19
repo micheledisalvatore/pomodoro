@@ -2,17 +2,17 @@ export const SESSIONS = {
   FOCUS: {
     label: 'focus',
     color: 'red',
-    length: 5,
+    length: 25 * 60,
   },
   SHORT_BREAK: {
     label: 'shortBreak',
     color: 'green',
-    length: 3,
+    length: 5 * 60,
   },
   LONG_BREAK: {
     label: 'longBreak',
     color: 'blue',
-    length: 2,
+    length: 30 * 60,
   },
 };
 
